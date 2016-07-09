@@ -8,6 +8,9 @@ ADD ./keys/logstash-forwarder.key /etc/pki/tls/private/logstash-forwarder.key
 ADD ./keys/logstash-beats.crt /etc/pki/tls/certs/logstash-beats.crt
 ADD ./keys/logstash-beats.key /etc/pki/tls/private/logstash-beats.key
 
+# filters
+ADD ./filters/11-bx-nginx-balanser.conf /etc/logstash/conf.d/11-bx-nginx-balanser.conf
+
 # patterns
 ADD ./patterns/main.pattern ${LOGSTASH_HOME}/patterns/main
 
