@@ -1,0 +1,21 @@
+elk:
+  build: elk
+  restart: always
+  ports:
+    - "5601:5601"
+    - "9201:9200"
+    - "5044:5044"
+    - "5000:5000"
+  log_opt:
+    max-size: "10m"
+    max-file: "10"
+  volumes:
+    - ./elasticsearch/data:/var/lib/elasticsearch
+curator:
+  build: curator
+  restart: always
+  log_opt:
+    max-size: "10m"
+    max-file: "10"
+  links:
+    - elk
