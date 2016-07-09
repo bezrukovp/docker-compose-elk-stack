@@ -12,7 +12,8 @@ ADD ./keys/logstash-beats.key /etc/pki/tls/private/logstash-beats.key
 ADD ./filters/11-bx-nginx-balanser.conf /etc/logstash/conf.d/11-bx-nginx-balanser.conf
 
 # patterns
-ADD ./patterns/main.pattern ${LOGSTASH_HOME}/patterns/main
+ADD ./patterns/grok-patterns ${LOGSTASH_HOME}/patterns/grok-patterns
+ADD ./patterns/local-patterns ${LOGSTASH_HOME}/patterns/local-patterns
 
 # Installing Elasticsearch plugins
 WORKDIR ${ES_HOME}
