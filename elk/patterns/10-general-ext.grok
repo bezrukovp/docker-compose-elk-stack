@@ -1,0 +1,4 @@
+IN_DOUBLE_QUOTES [^"]*
+
+# Shortcuts
+INQ %{IN_DOUBLE_QUOTES}

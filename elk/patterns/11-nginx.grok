@@ -1,0 +1,2 @@
+BXNGINXACCESSBALANCER %{IPORHOST:clientip} - %{NGUSER:ident} \[%{TIMESTAMP_ISO8601:timestamp}\] "%{HOST:request_host}" "%{WORD:verb} %{URIPATHPARAM:request} HTTP/%{NUMBER:httpversion}" %{NUMBER:response} (?:%{NUMBER:bytes}|-) "schema: %{WORD:schema}" "%{INQ:referrer}" "%{INQ:agent}" "(?:%{IPORHOST:http_x_forwarded_for}|-)" "(?:%{NUMBER:request_length}|-)" : "(?:%{NUMBER:request_time}|-)" -> (?:%{NUMBER:upstream_response_time}|-)
+BXNGINXACCESSBALANCERUPSTREAM %{BXNGINXACCESSBALANCER} %{HOSTPORT:upstream_addr} (?:%{NUMBER:upstream_response}|-)
