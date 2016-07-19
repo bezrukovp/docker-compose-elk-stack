@@ -1,3 +1,4 @@
+YESNO [y|Y][e|E][s|S]|[n|N][o|O]
 IN_DOUBLE_QUOTES [^"]*
 
 # Shortcuts

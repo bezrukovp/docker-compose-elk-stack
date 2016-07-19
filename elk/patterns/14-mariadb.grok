@@ -1,13 +1,16 @@
 MARIADB_TIMESTAMP_ISO8601 %{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]+%{HOUR}:?%{MINUTE}(?::?%{SECOND})?%{ISO8601_TIMEZONE}?
 
-_QUERY_DATE #%{SPACE}Time:%{SPACE}%{YEAR}%{MONTHNUM}%{MONTHDAY}%{SPACE}%{HOUR}:%{MINUTE}:%{SECOND}
+MARIADB_QUERY_DATE #%{SPACE}Time:%{SPACE}%{YEAR}%{MONTHNUM}%{MONTHDAY}%{SPACE}%{HOUR}:%{MINUTE}:%{SECOND}
 MARIADB_QUERY_USER #%{SPACE}User@Host:%{SPACE}%{USERNAME:login}\[%{GREEDYDATA:login2}\]%{SPACE}@%{SPACE}\[%{IPORHOST:source}\]
 MARIADB_QUERY_SCHEMA #%{SPACE}Thread_id:%{SPACE}%{INT:thread_id}%{SPACE}Schema:%{SPACE}%{MARIADB_DB_NAME:schema}%{SPACE}QC_hit:%{SPACE}%{YESNO:qc_hit}
 MARIADB_QUERY_EXEC_TIME #%{SPACE}Query_time:%{SPACE}%{BASE10NUM:query_exec_time:float}%{SPACE}Lock_time:%{SPACE}%{BASE10NUM:lock_time:float}%{SPACE}Rows_sent:%{SPACE}%{INT:rows_sent:int}%{SPACE}Rows_examined:%{SPACE}%{INT:rows_examined:int}
 MARIADB_QUERY_AFFECTED #%{SPACE}Rows_affected:%{SPACE}%{INT:rows_affected:int}
 # Sometimes those next two lines are not present.. check with |a^) to match null
 MARIADB_QUERY_SCAN #%{SPACE}Full_scan:%{SPACE}%{YESNO:full_scan}%{SPACE}Full_join:%{SPACE}%{YESNO:full_join}%{SPACE}Tmp_table:%{SPACE}%{YESNO:tmp_table}%{SPACE}Tmp_table_on_disk:%{SPACE}%{YESNO:tmp_table_on_disk}
-MARIADB_QUERY_FILE_SORT #%{SPACE}Filesort:%{SPACE}%{YESNO:filesort}%{SPACE}Filesort_on_disk:%{SPACE}%{YESNO:filesort_on_disk}%{SPACE}Merge_passes:%{SPACE}%{INT:merge_passes:int}%{SPACE}Priority_queue:%{YESNO:priority_queue}
+MARIADB_QUERY_FILE_SORT #%{SPACE}Filesort:%{SPACE}%{YESNO:filesort}%{SPACE}Filesort_on_disk:%{SPACE}%{YESNO:filesort_on_disk}%{SPACE}Merge_passes:%{SPACE}%{INT:merge_passes:int}%{SPACE}Priority_queue:%{SPACE}%{YESNO:priority_queue}
+MARIADB_QUERY_TIMESTAMP SET\stimestamp=%{NUMBER:timestamp};
+MARIADB_QUERY_SQL %{GREEDYDATA:query}
 # ADDITIONAL PERSONAL PATTERNS
 MARIADB_DB_NAME ([0-9a-zA-Z_-]){1,64}
-YESNO [y|Y][e|E][s|S]|[n|N][o|O]
+
+MARIADB_SLOW_LOG (?m)%{MARIADB_QUERY_USER}%{SPACE}(%{MARIADB_QUERY_SCHEMA}%{SPACE})?(%{MARIADB_QUERY_EXEC_TIME}%{SPACE})?(%{MARIADB_QUERY_AFFECTED}%{SPACE})?(%{MARIADB_QUERY_SCAN}%{SPACE})?(%{MARIADB_QUERY_FILE_SORT}%{SPACE})?(%{MARIADB_QUERY_SQL}%{SPACE})?(%{MARIADB_QUERY_TIMESTAMP}%{SPACE})?%{MARIADB_QUERY_SQL}?
