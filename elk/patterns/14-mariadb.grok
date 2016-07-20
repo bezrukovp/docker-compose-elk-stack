@@ -1,7 +1,7 @@
 MARIADB_TIMESTAMP_ISO8601 %{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]+%{HOUR}:?%{MINUTE}(?::?%{SECOND})?%{ISO8601_TIMEZONE}?
 
 MARIADB_QUERY_DATE #%{SPACE}Time:%{SPACE}%{YEAR}%{MONTHNUM}%{MONTHDAY}%{SPACE}%{HOUR}:%{MINUTE}:%{SECOND}
-MARIADB_QUERY_USER #%{SPACE}User@Host:%{SPACE}%{USERNAME:login}\[%{GREEDYDATA:login2}\]%{SPACE}@%{SPACE}(\[%{IPORHOST:source}\]|%{IPORHOST:source}%{SPACE}\[\])
+MARIADB_QUERY_USER #%{SPACE}User@Host:%{SPACE}%{USERNAME:login}\[%{GREEDYDATA:login2}\]%{SPACE}@%{SPACE}(\[%{IPORHOST:user_host}\]|%{IPORHOST:user_host}%{SPACE}\[\])
 MARIADB_QUERY_SCHEMA #%{SPACE}Thread_id:%{SPACE}%{INT:thread_id}%{SPACE}Schema:%{SPACE}%{MARIADB_DB_NAME:schema}%{SPACE}QC_hit:%{SPACE}%{YESNO:qc_hit}
 MARIADB_QUERY_EXEC_TIME #%{SPACE}Query_time:%{SPACE}%{BASE10NUM:query_exec_time:float}%{SPACE}Lock_time:%{SPACE}%{BASE10NUM:lock_time:float}%{SPACE}Rows_sent:%{SPACE}%{INT:rows_sent:int}%{SPACE}Rows_examined:%{SPACE}%{INT:rows_examined:int}
 MARIADB_QUERY_AFFECTED #%{SPACE}Rows_affected:%{SPACE}%{INT:rows_affected:int}

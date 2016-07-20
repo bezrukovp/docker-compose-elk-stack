@@ -1,33 +1,37 @@
-elk:
-  build: elk
-  restart: always
-  ports:
-    - "5601:5601"
-    - "9201:9200"
-    - "5044:5044"
-    - "5000:5000"
-  log_opt:
-    max-size: "10m"
-    max-file: "10"
-  volumes:
-    - ./elasticsearch/data:/var/lib/elasticsearch
-curator:
-  build: curator
-  restart: always
-  log_opt:
-    max-size: "10m"
-    max-file: "10"
-  links:
-    - elk
-elastalert:
-  image: ivankrizsan/elastalert
-  restart: always
-  log_opt:
-    max-size: "10m"
-    max-file: "10"
-  links:
-    - elk
-  volumes:
-    - ./elastalert/logs:/opt/logs
-    - ./elastalert/config:/opt/config
-    - ./elastalert/rules:/opt/rules
+version: '2'
+services:
+  elk:
+    build: elk
+    restart: always
+    ports:
+      - "5601:5601"
+      - "9201:9200"
+      - "5044:5044"
+      - "5000:5000"
+    volumes:
+      - ./elasticsearch/data:/var/lib/elasticsearch
+  curator:
+    build: curator
+    restart: always
+    links:
+      - elk
+  elastalert:
+    build: elastalert
+    restart: always
+    links:
+      - elk
+    environment:
+      ELASTICSEARCH_HOST: elk
+      SET_CONTAINER_TIMEZONE: "true"
+      CONTAINER_TIMEZONE: Europe/Moscow
+    volumes:
+      - elastalert-config:/opt/config
+      - elastalert-rules:/opt/rules
+      - elastalert-logs:/opt/logs
+volumes:
+  elastalert-config:
+    driver: local
+  elastalert-rules:
+    driver: local
+  elastalert-logs:
+    driver: local
