@@ -19,3 +19,15 @@ curator:
     max-file: "10"
   links:
     - elk
+elastalert:
+  image: ivankrizsan/elastalert
+  restart: always
+  log_opt:
+    max-size: "10m"
+    max-file: "10"
+  links:
+    - elk
+  volumes:
+    - ./elastalert/logs:/opt/logs
+    - ./elastalert/config:/opt/config
+    - ./elastalert/rules:/opt/rules
