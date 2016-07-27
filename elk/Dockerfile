@@ -1,7 +1,11 @@
 FROM sebp/elk
 
+MAINTAINER Pavel Bezrukov, https://bezr.pro
+
 ENV ES_HOME /usr/share/elasticsearch
-ENV ES_PLUGIN_WATCHER_INSTALL false
+ENV LOGSTASH_FILTER_POSTFIX_TIMESTAMP_TIMEZONE Europe/Moscow
+
+ARG ES_PLUGIN_WATCHER_INSTALL=false
 
 # Installing Elasticsearch plugins
 WORKDIR ${ES_HOME}
@@ -17,17 +21,21 @@ RUN gosu elasticsearch bin/plugin install license && \
 WORKDIR ${KIBANA_HOME}
 RUN gosu kibana bin/kibana plugin -i elastic/sense
 
+# Installing Logstash plugins
+WORKDIR ${LOGSTASH_HOME}
+RUN gosu logstash bin/logstash-plugin install logstash-filter-environment
+
 # Download Latest GeoIP Database
 RUN mkdir -p /usr/share/GeoIP/ && cd /usr/share/GeoIP/ && \
     curl -O "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz" && \
     gunzip GeoLiteCity.dat.gz && chmod -R +r .
 
 # certs/keys for Beats and Lumberjack input
-ADD ./keys/logstash-forwarder.crt ./keys/logstash-beats.crt /etc/pki/tls/certs/
-ADD ./keys/logstash-forwarder.key ./keys/logstash-beats.key /etc/pki/tls/private/
+COPY ./keys/logstash-forwarder.crt ./keys/logstash-beats.crt /etc/pki/tls/certs/
+COPY ./keys/logstash-forwarder.key ./keys/logstash-beats.key /etc/pki/tls/private/
 
 # filters
-ADD ./filters/ /etc/logstash/conf.d/
+COPY ./filters/ /etc/logstash/conf.d/
 
 # patterns
-ADD ./patterns/ ${LOGSTASH_HOME}/patterns/
+COPY ./patterns/ ${LOGSTASH_HOME}/patterns/
