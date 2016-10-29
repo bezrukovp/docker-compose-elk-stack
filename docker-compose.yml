@@ -9,26 +9,26 @@ services:
       - "5044:5044"
       - "5000:5000"
     environment:
-      LOGSTASH_FILTER_POSTFIX_TIMESTAMP_TIMEZONE: Europe/Moscow
+      LOGSTASH_FILTER_POSTFIX_TIMESTAMP_TIMEZONE: ${LOGSTASH_FILTER_POSTFIX_TIMESTAMP_TIMEZONE}
     volumes:
       - ./elasticsearch/data:/var/lib/elasticsearch
   curator:
     build: curator
     restart: always
-    links:
-      - elk
+    environment:
+      CURATOR_CLEAR_DAYS: ${CURATOR_CLEAR_DAYS}
   elastalert:
     build:
       context: elastalert
       args:
-        setContainerTimezone: "true"
-        containerTimezone: Europe/Moscow
+        setContainerTimezone: ${ELASTALERT_SET_CONTAINER_TIMEZONE}
+        containerTimezone: ${ELASTALERT_CONTAINER_TIMEZONE}
     restart: always
     links:
       - elk:elasticsearch_host
     environment:
-      SET_CONTAINER_TIMEZONE: "true"
-      CONTAINER_TIMEZONE: Europe/Moscow
+      SET_CONTAINER_TIMEZONE: ${ELASTALERT_SET_CONTAINER_TIMEZONE}
+      CONTAINER_TIMEZONE: ${ELASTALERT_CONTAINER_TIMEZONE}
     volumes:
       - elastalert-config:/opt/config
       - elastalert-rules:/opt/rules

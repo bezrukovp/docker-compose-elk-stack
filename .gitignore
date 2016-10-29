@@ -8,6 +8,8 @@ Thumbs.db
 *--.*
 *-.*
 
+.env
+
 elastalert/logs/*
 elasticsearch/data/*
 
