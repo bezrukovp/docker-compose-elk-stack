@@ -1,5 +1,8 @@
 YESNO [y|Y][e|E][s|S]|[n|N][o|O]
 IN_DOUBLE_QUOTES [^"]*
 
+#Date
+DATESTAMP2 %{MONTHDAY}[./-]%{MONTH}[./-]%{YEAR}:%{TIME} %{ISO8601_TIMEZONE}
+
 # Shortcuts
 INQ %{IN_DOUBLE_QUOTES}

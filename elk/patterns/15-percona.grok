@@ -1,0 +1,12 @@
+PERCONA_QUERY_DATE #%{SPACE}Time:%{SPACE}%{YEAR}%{MONTHNUM}%{MONTHDAY}%{SPACE}%{HOUR}:%{MINUTE}:%{SECOND}
+PERCONA_QUERY_USER #%{SPACE}User@Host:%{SPACE}%{USERNAME:login}\[%{GREEDYDATA}\]%{SPACE}@%{SPACE}(\[%{IPORHOST:user_host}\]|%{IPORHOST:user_host}%{SPACE}\[\])(%{SPACE}Id:%{SPACE}%{NUMBER:connect_id})?
+PERCONA_QUERY_SCHEMA #%{SPACE}Schema:%{SPACE}%{PERCONA_DB_NAME:schema}%{SPACE}Last_errno:%{SPACE}%{INT:last_errno:int}%{SPACE}Killed:%{SPACE}%{INT:killed:int}
+PERCONA_QUERY_EXEC_TIME #%{SPACE}Query_time:%{SPACE}%{BASE10NUM:query_exec_time:float}%{SPACE}Lock_time:%{SPACE}%{BASE10NUM:lock_time:float}%{SPACE}Rows_sent:%{SPACE}%{INT:rows_sent:int}%{SPACE}Rows_examined:%{SPACE}%{INT:rows_examined:int}%{SPACE}Rows_affected:%{SPACE}%{INT:rows_affected:int}
+PERCONA_BYTES_SEND #%{SPACE}Bytes_sent:%{SPACE}%{INT:bytes_sent:int}
+PERCONA_QUERY_USE (?i)use%{SPACE}%{PERCONA_DB_NAME:use_db}\;
+PERCONA_QUERY_TIMESTAMP (?i)SET%{SPACE}timestamp=%{NUMBER:timestamp}\;
+PERCONA_QUERY_SQL (?m)%{GREEDYDATA:query}
+# ADDITIONAL PERSONAL PATTERNS
+PERCONA_DB_NAME ([0-9a-zA-Z_-]){1,64}
+
+PERCONA_SLOW_LOG (?m)%{PERCONA_QUERY_USER}%{SPACE}(%{PERCONA_QUERY_SCHEMA}%{SPACE})?(%{PERCONA_QUERY_EXEC_TIME}%{SPACE})?(%{PERCONA_BYTES_SEND}%{SPACE})?(%{PERCONA_QUERY_USE}%{SPACE})?(%{PERCONA_QUERY_TIMESTAMP}%{SPACE})?(%{PERCONA_QUERY_SQL}%{SPACE})?

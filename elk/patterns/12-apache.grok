@@ -1,0 +1,1 @@
+APACHE_ACCESS_COMBINED %{IPORHOST:client_ip} - %{NGUSER:ident} \[%{DATESTAMP2:timestamp}\] "%{WORD:verb} %{URIPATHPARAM:request} HTTP/%{NUMBER:http_version}" %{NUMBER:response} (?:%{NUMBER:bytes}|-) "%{INQ:referrer}" "%{INQ:agent}" (?:%{NOTSPACE:http_x_requested_with}|-)
