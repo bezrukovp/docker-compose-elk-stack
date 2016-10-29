@@ -6,6 +6,7 @@ ENV ES_HOME /usr/share/elasticsearch
 ENV LOGSTASH_FILTER_POSTFIX_TIMESTAMP_TIMEZONE Europe/Moscow
 
 ARG ES_PLUGIN_WATCHER_INSTALL=false
+ARG LOGSTASH_KEYS_DIR=./keys
 
 # Installing Elasticsearch plugins
 WORKDIR ${ES_HOME}
@@ -31,8 +32,8 @@ RUN mkdir -p /usr/share/GeoIP/ && cd /usr/share/GeoIP/ && \
     gunzip GeoLiteCity.dat.gz && chmod -R +r .
 
 # certs/keys for Beats and Lumberjack input
-COPY ./keys/logstash-forwarder.crt ./keys/logstash-beats.crt /etc/pki/tls/certs/
-COPY ./keys/logstash-forwarder.key ./keys/logstash-beats.key /etc/pki/tls/private/
+COPY ${LOGSTASH_KEYS_DIR}/logstash-forwarder.crt ${LOGSTASH_KEYS_DIR}/logstash-beats.crt /etc/pki/tls/certs/
+COPY ${LOGSTASH_KEYS_DIR}/logstash-forwarder.key ${LOGSTASH_KEYS_DIR}/logstash-beats.key /etc/pki/tls/private/
 
 # filters
 COPY ./filters/ /etc/logstash/conf.d/

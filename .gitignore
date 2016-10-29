@@ -13,4 +13,6 @@ Thumbs.db
 elastalert/logs/*
 elasticsearch/data/*
 
+**/local/*
+
 !.gitkeep

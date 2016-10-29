@@ -1,7 +1,10 @@
 version: '2'
 services:
   elk:
-    build: elk
+    build:
+      context: elk
+      args:
+        LOGSTASH_KEYS_DIR: ${LOGSTASH_KEYS_DIR}
     restart: always
     ports:
       - "5601:5601"
