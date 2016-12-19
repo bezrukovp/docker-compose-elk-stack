@@ -10,13 +10,16 @@ ARG LOGSTASH_KEYS_DIR=./keys
 
 # Installing Elasticsearch plugins
 WORKDIR ${ES_HOME}
-RUN gosu elasticsearch bin/plugin install license && \
+RUN \
     # The Elastic HQ interface will be accessible at http://<your-host>:9200/_plugin/hq/ (e.g. http://localhost:9200/_plugin/hq/ for a local native instance of Docker).
     gosu elasticsearch bin/plugin install royrusso/elasticsearch-HQ && \
     # To verify that Watcher is set up, call the Watcher _stats API:
     # curl -XGET 'http://localhost:9200/_watcher/stats?pretty'
     # It requires a commercial license.
-    if ${ES_PLUGIN_WATCHER_INSTALL}; then bin/plugin install watcher; fi
+    if ${ES_PLUGIN_WATCHER_INSTALL}; then \
+        gosu elasticsearch bin/plugin install license; \
+        gosu elasticsearch bin/plugin install watcher; \
+    fi
 
 # Installing Kibana plugins
 WORKDIR ${KIBANA_HOME}
