@@ -10,9 +10,20 @@ services:
       - "5601:5601"
       - "9201:9200"
       - "5044:5044"
-      - "5000:5000"
     environment:
       LOGSTASH_FILTER_POSTFIX_TIMESTAMP_TIMEZONE: ${LOGSTASH_FILTER_POSTFIX_TIMESTAMP_TIMEZONE}
+      ES_JAVA_OPTS: ${ES_JAVA_OPTS}
+    mem_limit: ${ELK_MEMORY_LIMIT}
+    memswap_limit: ${ELK_MEMSWAP_LIMIT}
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
     volumes:
       - ./elasticsearch/data:/var/lib/elasticsearch
   curator:
